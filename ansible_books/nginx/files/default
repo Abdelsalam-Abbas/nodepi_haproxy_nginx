@@ -1,0 +1,22 @@
+### redirect api traffic to haproxy then node_api :1337 < express
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location / {
+        proxy_pass http://myhaproxy:9000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+### redirect api traffic to haproxy then node_api :3000 < nodejs
+server {
+    listen 3000 default_server;
+    server_name _;
+
+    location / {
+        proxy_pass http://myhaproxy:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}

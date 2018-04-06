@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  node_api:
+    build: .
+    environment:
+      - PORT=1337
+      - ENV_IN=docker
+    ports:
+      - "133${SEQUENCE}:1337"
+      - "300${SEQUENCE}:3000"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - db
+    restart: always
+
+  mongo:
+    image: mongo:3.4.4
+    volumes:
+      - "./volumes/mongo${SEQUENCE}:/data/db"
+    ports:
+      - "270${SEQUENCE}:27017"
+    networks:
+      - db
+    restart: always
+
+networks:
+  db:
+    driver: bridge

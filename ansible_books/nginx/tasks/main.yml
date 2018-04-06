@@ -1,0 +1,20 @@
+---
+# tasks file for nginx
+- name: create nginx image
+  docker_image:
+    name: nginx-proxy
+    tag: v1
+    path: /data/nginx/files/
+    force: yes
+
+- name: install nginx container
+  docker_container:
+    name: nginx-proxy
+    image: nginx-proxy:v1
+    recreate: yes
+    ports: 
+      - "80:80"
+      - "3000:3000"
+    links:
+     - "myhaproxy:myhaproxy"
+

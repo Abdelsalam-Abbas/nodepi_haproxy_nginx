@@ -1,0 +1,40 @@
+---
+# tasks file for haproxy
+- name: create haproxy template 
+  template:
+      src: haproxy.j2
+      mode: 0755
+      dest: ./haproxy/files/haproxy.cfg
+
+- name: create haproxy image
+  docker_image:
+    name: myhaproxy
+    tag: v1
+    path: /data/haproxy/files/
+    force: yes
+
+- name: create custom haproxy conatiner
+  docker_container:
+    name: myhaproxy
+    image: myhaproxy:v1
+    recreate: yes
+    state: present
+    ports:
+     - "8080:8080"
+     - "9000:9000"
+
+- name: Add HaPorxy to all networks
+  docker_container:
+    name: myhaproxy
+    networks:
+      - name: "{{ project_prefix }}{{ item }}_db"
+  with_sequence: start=1 end={{ count_of_instances }}
+
+- name: start hproxy container
+  docker_container:
+      name: myhaproxy
+      state: started
+
+#Start HaPorxy container After making sure it is connected to all network to avoid failure of HaProxy configuration
+#
+#

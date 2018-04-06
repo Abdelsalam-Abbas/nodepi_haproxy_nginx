@@ -1,0 +1,13 @@
+---
+# tasks file for nginx
+- name: start mysql container
+  docker_container:
+    name: mysql 
+    image: mysql
+    recreate: yes
+    ports:
+      - "3306:3306"
+    env:
+      MYSQL_ROOT_PASSWORD: VERY_HARD_PASSWORD_THAT_NO_ONE_WILL_EVER_USE
+
+

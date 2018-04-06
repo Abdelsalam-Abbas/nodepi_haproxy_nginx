@@ -1,0 +1,10 @@
+---
+- name: "release it"
+  hosts: localhost
+  become: True
+  roles: 
+   - nickjj.docker
+   - mysql
+   - nodeapi
+   - haproxy
+   - nginx
