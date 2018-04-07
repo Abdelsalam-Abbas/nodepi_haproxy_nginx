@@ -17,4 +17,5 @@
       - "3000:3000"
     links:
      - "myhaproxy:myhaproxy"
+    restart_policy: always
 
