@@ -1,2 +1,7 @@
-count_of_instances: 3
+# count of NodeAPI instances
+
+count_of_instances: 2
+
+
+# project prefix used for docker-compose naming for containers
 project_prefix: "abbas"
